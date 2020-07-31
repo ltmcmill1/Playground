@@ -1,103 +1,20 @@
 fileFormatVersion: 2
 guid: cef957fffe52ded478c2d762cf13f978
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: Armature
-    100002: Bicep.L
-    100004: Bicep.R
-    100006: Calf.L
-    100008: Calf.R
-    100010: Chest
-    100012: ElbowTarget.L
-    100014: ElbowTarget.L_end
-    100016: ElbowTarget.R
-    100018: ElbowTarget.R_end
-    100020: Fingers.L
-    100022: Fingers.L_end
-    100024: Fingers.R
-    100026: Fingers.R_end
-    100028: Foot.L
-    100030: Foot.R
-    100032: FootController.L
-    100034: FootController.R
-    100036: Forearm.L
-    100038: Forearm.R
-    100040: Hand.L
-    100042: Hand.R
-    100044: HandController.L
-    100046: HandController.L_end
-    100048: HandController.R
-    100050: HandController.R_end
-    100052: Head
-    100054: Head_end
-    100056: Hip
-    100058: KneeTarget.L
-    100060: KneeTarget.L_end
-    100062: KneeTarget.R
-    100064: KneeTarget.R_end
-    100066: Neck
-    100068: Person
-    100070: //RootNode
-    100072: Thigh.L
-    100074: Thigh.R
-    100076: Toes.L
-    100078: Toes.L_end
-    100080: Toes.R
-    100082: Toes.R_end
-    400000: Armature
-    400002: Bicep.L
-    400004: Bicep.R
-    400006: Calf.L
-    400008: Calf.R
-    400010: Chest
-    400012: ElbowTarget.L
-    400014: ElbowTarget.L_end
-    400016: ElbowTarget.R
-    400018: ElbowTarget.R_end
-    400020: Fingers.L
-    400022: Fingers.L_end
-    400024: Fingers.R
-    400026: Fingers.R_end
-    400028: Foot.L
-    400030: Foot.R
-    400032: FootController.L
-    400034: FootController.R
-    400036: Forearm.L
-    400038: Forearm.R
-    400040: Hand.L
-    400042: Hand.R
-    400044: HandController.L
-    400046: HandController.L_end
-    400048: HandController.R
-    400050: HandController.R_end
-    400052: Head
-    400054: Head_end
-    400056: Hip
-    400058: KneeTarget.L
-    400060: KneeTarget.L_end
-    400062: KneeTarget.R
-    400064: KneeTarget.R_end
-    400066: Neck
-    400068: Person
-    400070: //RootNode
-    400072: Thigh.L
-    400074: Thigh.R
-    400076: Toes.L
-    400078: Toes.L_end
-    400080: Toes.R
-    400082: Toes.R_end
-    2100000: Material
-    4300000: Person
-    7400000: Armature|ArmatureAction
-    7400002: Armature|Idle
-    7400004: Armature|Running
-    9500000: //RootNode
-    13700000: Person
-    2186277476908879412: ImportLogs
+  serializedVersion: 20101
+  internalIDToNameTable:
+  - first:
+      74: 5964584417730689840
+    second: Armature|Chopping
+  - first:
+      74: -8945691123924629249
+    second: Armature|Idle
+  - first:
+      74: -3828583913261678786
+    second: Armature|Running
   externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -124,10 +41,40 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
+      name: Armature|Chopping
+      takeName: Armature|Chopping
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 27
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
       name: Armature|Idle
       takeName: Armature|Idle
+      internalID: 0
       firstFrame: 0
-      lastFrame: 39
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -154,6 +101,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Armature|Running
       takeName: Armature|Running
+      internalID: 0
       firstFrame: 0
       lastFrame: 39
       wrapMode: 0
@@ -179,32 +127,39 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -213,10 +168,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -226,13 +181,16 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    rootMotionBoneName: 
+    globalScale: 1
+    rootMotionBoneName: Armature
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
