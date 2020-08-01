@@ -62,12 +62,12 @@ public class TerrainGenerator : MonoBehaviour
 					objectCreationRandom = Random.Range(0, 1f);
 					if (objectCreationRandom > 0.98f)
 					{
-						GameObject newTree = Instantiate(tree, newVertices[thisIndex], Quaternion.Euler(-90f, 0f, 0f));
+						GameObject newTree = Instantiate(tree, newVertices[thisIndex], Quaternion.Euler(0f, 0f, 0f));
 						newTree.transform.localScale = newTree.transform.localScale * Random.Range(0.25f, 1.75f);
 					}
 					else if (objectCreationRandom > 0.95f)
 					{
-						GameObject newMushroom = Instantiate(mushroom, newVertices[thisIndex], Quaternion.Euler(-90f, 0f, 0f));
+						GameObject newMushroom = Instantiate(mushroom, newVertices[thisIndex], Quaternion.Euler(0f, 0f, 0f));
 						newMushroom.transform.localScale = newMushroom.transform.localScale * Random.Range(0.75f, 3f);
 					}
 				}
