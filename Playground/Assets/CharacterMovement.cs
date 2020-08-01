@@ -12,6 +12,7 @@ public class CharacterMovement : MonoBehaviour
 	public float maximumForwardSpeed;
 	public float maximumBackwardSpeed;
 	public float groundingColliderHeight;
+	public GameObject itemInHand;
 
 	private Animator animator;
 	private Rigidbody rigidbody;
@@ -54,13 +55,16 @@ public class CharacterMovement : MonoBehaviour
 				}
 				animator.SetBool("Running", true);
 			}
+			else if (Input.GetKey(KeyCode.E))
+			{
+				animator.SetBool("Chopping", true);
+				itemInHand.GetComponent<WoodChop>().Use();
+			}
 			else
 			{
-				if (rigidbody.velocity.magnitude > 0)
-				{
-					rigidbody.AddForce(-backwardForce * Vector3.Normalize(rigidbody.velocity));
-				}
 				animator.SetBool("Running", false);
+				animator.SetBool("Chopping", false);
+				itemInHand.GetComponent<WoodChop>().StopUse();
 			}
 			if (shouldJump)
 			{
@@ -68,9 +72,12 @@ public class CharacterMovement : MonoBehaviour
 			}
 		}
 		shouldJump = false;
-		if (Input.GetKey(KeyCode.A)) {
+		if (Input.GetKey(KeyCode.A))
+		{
 			rigidbody.MoveRotation(Quaternion.Euler(rigidbody.rotation.eulerAngles - angularVelocity * transform.up));
-		} else if (Input.GetKey(KeyCode.D)) {
+		}
+		else if (Input.GetKey(KeyCode.D))
+		{
 			rigidbody.MoveRotation(Quaternion.Euler(rigidbody.rotation.eulerAngles + angularVelocity * transform.up));
 		}
 	}
