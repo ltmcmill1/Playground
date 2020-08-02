@@ -16,13 +16,16 @@ public class WorldGenerationManager : MonoBehaviour
     public float smoothness;
     public int seed;
     public bool generateTerrain;
+	public float minDensity;
+	public float maxDensity;
 
 
     private SortedDictionary<WorldParam, PerlinNoiseLayer> worldParamNoiseLayers;
 
     private System.Random terrainRandomGenerator;
     private Vector2 terrainSeed;
-    private Vector2Int perlinSeedRange = new Vector2Int(-100000, 100000);
+	private Vector2 densitySeed;
+	private Vector2Int perlinSeedRange = new Vector2Int(-100000, 100000);
 
     // Update is called once per frame
     void Update()
@@ -51,15 +54,16 @@ public class WorldGenerationManager : MonoBehaviour
 
         terrainRandomGenerator = new System.Random(seed);
         terrainSeed = new Vector2(terrainRandomGenerator.Next(perlinSeedRange.x, perlinSeedRange.y), terrainRandomGenerator.Next(perlinSeedRange.x, perlinSeedRange.y));
+		densitySeed = new Vector2(terrainRandomGenerator.Next(perlinSeedRange.x, perlinSeedRange.y), terrainRandomGenerator.Next(perlinSeedRange.x, perlinSeedRange.y));
 
-        Vector3[] newVertices = new Vector3[vertexCount];
+		Vector3[] newVertices = new Vector3[vertexCount];
         Vector3 startPosition = gameObject.transform.position;
         startPosition.x -= xScale / 2;
         startPosition.z -= zScale / 2;
-        float densityRandom;
 
         int thisIndex;
-        for (int i = 0; i < xVertexCount; i++)
+		List<(EnvironmentalObjectFactory, float)> polledAffinities = new List<(EnvironmentalObjectFactory, float)>();
+		for (int i = 0; i < xVertexCount; i++)
         {
             for (int j = 0; j < zVertexCount; j++)
             {
@@ -69,34 +73,42 @@ public class WorldGenerationManager : MonoBehaviour
                 newVertices[thisIndex].z += j * (zScale / zVertexCount);
                 newVertices[thisIndex].y -= heightMultiplier * Mathf.PerlinNoise(smoothness * newVertices[thisIndex].x + terrainSeed.x, smoothness * newVertices[thisIndex].z + terrainSeed.y);
 
-                densityRandom = terrainRandomGenerator.Next(0, 100) / 100f;
+                float density = Mathf.PerlinNoise(smoothness * newVertices[thisIndex].x + densitySeed.x, smoothness * newVertices[thisIndex].z + densitySeed.y);
 
-                // Generate this point's affinity values
-                WorldParamAffinities currentWorldStateAffinities = new WorldParamAffinities();
+				// Map density into an appropriate range so a world isn't too dense or too sparse
+				density = density / (minDensity * (maxDensity - 1)) + maxDensity;
+
+				// Generate this point's affinity values
+				WorldParamAffinities currentWorldStateAffinities = new WorldParamAffinities();
                 foreach(KeyValuePair<WorldParam, PerlinNoiseLayer> paramAffinity in worldParamNoiseLayers)
                 {
                     currentWorldStateAffinities.AddAffinity(paramAffinity.Key, paramAffinity.Value.Next());
                 }
 
+				float polledAffinitySum = 0;
+				int k = 0;
                 // Poll each factory
-                EnvironmentalObjectFactory winner = null;
-                float highestAffinity = 0;
-                foreach(EnvironmentalObjectFactory factory in objectFactories)
+                foreach (EnvironmentalObjectFactory factory in objectFactories)
                 {
-                    float result = factory.AffinityForWorldState(densityRandom, currentWorldStateAffinities);
-                    if(result > highestAffinity)
-                    {
-                        highestAffinity = result;
-                        winner = factory;
-                    }
+                    polledAffinities[k] = (factory, factory.AffinityForWorldState(currentWorldStateAffinities));
+					polledAffinitySum += polledAffinities[k].Item2;
+					k++;
                 }
 
-                // Place the winner
-                if(winner != null)
-                {
-                    GameObject newObject = Instantiate(winner.CreateEnvironmentalObject(), newVertices[thisIndex], Quaternion.Euler(0f, 0f, 0f));
-                }
-
+				// Spawn object based on the weighted affinity values
+				if (Random.Range(0, 1) < density)
+				{
+					float spawnDecider = Random.Range(0, polledAffinitySum);
+					float spawnSum = 0;
+					foreach ((EnvironmentalObjectFactory, float) affinity in polledAffinities)
+					{
+						spawnSum += affinity.Item2;
+						if (spawnDecider <= spawnSum)
+						{
+							Instantiate(affinity.Item1.CreateEnvironmentalObject(), newVertices[thisIndex], Quaternion.Euler(0f, 0f, 0f));
+						}
+					}
+				}
             }
 
         }
