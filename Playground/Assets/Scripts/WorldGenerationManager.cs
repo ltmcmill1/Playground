@@ -8,7 +8,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class WorldGenerationManager : MonoBehaviour
 {
-    public List<EnvironmentalObjectFactory> objectFactories;
+    public List<EnvironmentalObjectFactory> objectFactories = EnvironmentalObjectFactory.GetFactoryInstances();
     public int xScale;
     public int zScale;
     public float quadDensity;
@@ -20,7 +20,7 @@ public class WorldGenerationManager : MonoBehaviour
 	public float maxDensity;
 
 
-    private SortedDictionary<WorldParam, PerlinNoiseLayer> worldParamNoiseLayers;
+    private SortedDictionary<WorldParam, WorldParamPerlinNoiseLayer> worldParamNoiseLayers = WorldParamPerlinNoiseLayer.GetNoiseLayerInstances();
 
     private System.Random terrainRandomGenerator;
     private Vector2 terrainSeed;
@@ -44,6 +44,10 @@ public class WorldGenerationManager : MonoBehaviour
         {
             UnityEngine.Debug.LogError("Terrain MeshFilter is not set, cannot generate world.");
             return;
+        }
+
+        foreach(KeyValuePair<WorldParam, WorldParamPerlinNoiseLayer> worldParamLayer in worldParamNoiseLayers){
+            worldParamLayer.Value.InitSeed(seed);
         }
 
         mesh.Clear();
@@ -80,9 +84,9 @@ public class WorldGenerationManager : MonoBehaviour
 
 				// Generate this point's affinity values
 				WorldParamAffinities currentWorldStateAffinities = new WorldParamAffinities();
-                foreach(KeyValuePair<WorldParam, PerlinNoiseLayer> paramAffinity in worldParamNoiseLayers)
+                foreach(KeyValuePair<WorldParam, WorldParamPerlinNoiseLayer> paramAffinity in worldParamNoiseLayers)
                 {
-                    currentWorldStateAffinities.AddAffinity(paramAffinity.Key, paramAffinity.Value.Next());
+                    currentWorldStateAffinities.AddAffinity(paramAffinity.Key, paramAffinity.Value.Next(newVertices[thisIndex].x, newVertices[thisIndex].y));
                 }
 
 				float polledAffinitySum = 0;
@@ -90,7 +94,7 @@ public class WorldGenerationManager : MonoBehaviour
                 // Poll each factory
                 foreach (EnvironmentalObjectFactory factory in objectFactories)
                 {
-                    polledAffinities[k] = (factory, factory.AffinityForWorldState(currentWorldStateAffinities));
+                    polledAffinities.Add((factory, factory.AffinityForWorldState(currentWorldStateAffinities)));
 					polledAffinitySum += polledAffinities[k].Item2;
 					k++;
                 }

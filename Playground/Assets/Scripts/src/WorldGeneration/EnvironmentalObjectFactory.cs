@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -10,8 +12,8 @@ namespace Assets.Scripts.src
 {
     public abstract class EnvironmentalObjectFactory
     {
-
-        private WorldParamAffinities worldAffinity;
+        private static List<EnvironmentalObjectFactory> existingFactoryImplementations = new List<EnvironmentalObjectFactory>();
+        protected WorldParamAffinities worldAffinity;
 
         /// <summary>
         /// Returns a float between 0-1 representing the affinity this factory's GameObject has for 
@@ -36,5 +38,28 @@ namespace Assets.Scripts.src
         /// A GameObject instance
         /// </returns>
         public abstract GameObject CreateEnvironmentalObject();
+
+        public static List<EnvironmentalObjectFactory> GetFactoryInstances()
+        {
+            Assembly currentAssembly = Assembly.GetExecutingAssembly();
+
+            Type baseType = typeof(EnvironmentalObjectFactory);
+
+            foreach (Type type in currentAssembly.GetTypes())
+            {
+                if (!type.IsClass || type.IsAbstract ||
+                    !type.IsSubclassOf(baseType))
+                {
+                    continue;
+                }
+
+                EnvironmentalObjectFactory derivedObject =
+                    System.Activator.CreateInstance(type) as EnvironmentalObjectFactory;
+                existingFactoryImplementations.Add(derivedObject);
+            }
+
+            return existingFactoryImplementations;
+        }
+        
     }
 }

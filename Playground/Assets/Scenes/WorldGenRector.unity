@@ -217,6 +217,8 @@ GameObject:
   - component: {fileID: 2045259218}
   - component: {fileID: 2045259217}
   - component: {fileID: 2045259216}
+  - component: {fileID: 2045259219}
+  - component: {fileID: 2045259220}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -282,6 +284,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2045259219
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045259215}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2045259220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045259215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba78b39eb211554c80c3308f6821ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xScale: 1000
+  zScale: 1000
+  quadDensity: 0.2
+  heightMultiplier: 100
+  smoothness: 0.004
+  seed: 4
+  generateTerrain: 0
+  minDensity: 0.2
+  maxDensity: 1
 --- !u!1 &2105383310
 GameObject:
   m_ObjectHideFlags: 0
