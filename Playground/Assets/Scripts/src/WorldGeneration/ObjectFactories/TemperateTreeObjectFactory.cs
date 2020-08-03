@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.src.WorldGeneration.ObjectFactories
@@ -21,10 +22,11 @@ namespace Assets.Scripts.src.WorldGeneration.ObjectFactories
 
         public override GameObject CreateEnvironmentalObject()
         {
-            var temperateTreeObjects = Resources.FindObjectsOfTypeAll(typeof(GameObject)).Cast<GameObject>().Where(g => g.tag == prefabKey).ToList();
+            var temperateTreeObjects = GameObject.FindGameObjectsWithTag(prefabKey);
             if (temperateTreeObjects.Count() > 0)
             {
                 int index = temperateTreeObjects.Count() > 1 ? UnityEngine.Random.Range(0, temperateTreeObjects.Count() - 1) : 0;
+                //temperateTreeObjects[index].transform.localScale = temperateTreeObjects[index].transform.localScale * UnityEngine.Random.Range(0.25f, 1.75f);
                 return temperateTreeObjects[index];
             }
             return null;

@@ -66,8 +66,8 @@ public class WorldGenerationManager : MonoBehaviour
         startPosition.z -= zScale / 2;
 
         int thisIndex;
-		List<(EnvironmentalObjectFactory, float)> polledAffinities = new List<(EnvironmentalObjectFactory, float)>();
-		for (int i = 0; i < xVertexCount; i++)
+        List<(EnvironmentalObjectFactory, float)> polledAffinities = new List<(EnvironmentalObjectFactory, float)>();
+        for (int i = 0; i < xVertexCount; i++)
         {
             for (int j = 0; j < zVertexCount; j++)
             {
@@ -79,40 +79,47 @@ public class WorldGenerationManager : MonoBehaviour
 
                 float density = Mathf.PerlinNoise(smoothness * newVertices[thisIndex].x + densitySeed.x, smoothness * newVertices[thisIndex].z + densitySeed.y);
 
-				// Map density into an appropriate range so a world isn't too dense or too sparse
-				density = density / (minDensity * (maxDensity - 1)) + maxDensity;
+                // Map density into an appropriate range so a world isn't too dense or too sparse
+                density = density < minDensity ? minDensity : density > maxDensity ? maxDensity : density;
 
-				// Generate this point's affinity values
-				WorldParamAffinities currentWorldStateAffinities = new WorldParamAffinities();
-                foreach(KeyValuePair<WorldParam, WorldParamPerlinNoiseLayer> paramAffinity in worldParamNoiseLayers)
+                // Generate this point's affinity values
+                WorldParamAffinities currentWorldStateAffinities = new WorldParamAffinities();
+                foreach (KeyValuePair<WorldParam, WorldParamPerlinNoiseLayer> paramAffinity in worldParamNoiseLayers)
                 {
                     currentWorldStateAffinities.AddAffinity(paramAffinity.Key, paramAffinity.Value.Next(newVertices[thisIndex].x, newVertices[thisIndex].y));
                 }
 
-				float polledAffinitySum = 0;
-				int k = 0;
+                float polledAffinitySum = 0;
+                int k = 0;
+                polledAffinities.Clear();
                 // Poll each factory
                 foreach (EnvironmentalObjectFactory factory in objectFactories)
                 {
                     polledAffinities.Add((factory, factory.AffinityForWorldState(currentWorldStateAffinities)));
-					polledAffinitySum += polledAffinities[k].Item2;
-					k++;
+                    polledAffinitySum += polledAffinities[k].Item2;
+                    k++;
                 }
 
-				// Spawn object based on the weighted affinity values
-				if (Random.Range(0, 1) < density)
-				{
-					float spawnDecider = Random.Range(0, polledAffinitySum);
-					float spawnSum = 0;
-					foreach ((EnvironmentalObjectFactory, float) affinity in polledAffinities)
-					{
-						spawnSum += affinity.Item2;
-						if (spawnDecider <= spawnSum)
-						{
-							Instantiate(affinity.Item1.CreateEnvironmentalObject(), newVertices[thisIndex], Quaternion.Euler(0f, 0f, 0f));
-						}
-					}
-				}
+                // Spawn object based on the weighted affinity values
+
+                float diceRoll = Random.Range(0, 101) / 100f;
+                if (diceRoll < density)
+                {
+                    float spawnDecider = Random.Range(0, polledAffinitySum);
+                    float spawnSum = 0;
+                    foreach ((EnvironmentalObjectFactory, float) affinity in polledAffinities)
+                    {
+                        spawnSum += affinity.Item2;
+                        if (spawnDecider <= spawnSum)
+                        {
+                            var newObject = affinity.Item1.CreateEnvironmentalObject();
+                            if(newObject != null)
+                            {
+                                Instantiate(newObject, newVertices[thisIndex], Quaternion.Euler(0f, 0f, 0f));
+                            }
+                        }
+                    }
+                }
             }
 
         }

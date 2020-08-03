@@ -15,7 +15,7 @@ namespace Assets.Scripts.src.WorldGeneration.WorldParamNoiseLayers
 
         protected override float GetMax()
         {
-            return 2f;
+            return 1f;
         }
 
         protected override float GetMin()

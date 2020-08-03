@@ -33,7 +33,7 @@ namespace Assets.Scripts.src.WorldGeneration
                 random = new System.Random(); //use default seed
             }
             float offset = (GetMax() - GetMin()) * (random.Next(0, 101) / 100f);
-            return Mathf.PerlinNoise(x, y) + offset;
+            return Mathf.PerlinNoise(x + offset, y + offset);
 
         }
 

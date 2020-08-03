@@ -23,12 +23,17 @@ namespace Assets.Scripts.src
         /// <returns></returns>
         public float AffinityForWorldState(WorldParamAffinities worldPointAffinityParams)
 		{
-			float affinitySum = 0;
+			float affinityMatch = 1f;
 			foreach (WorldParam affinity in Enum.GetValues(typeof(WorldParam)))
 			{
-				affinitySum += worldPointAffinityParams.GetAffinity(affinity) * worldAffinity.GetAffinity(affinity);
+                //TODO: don't skip 0-value world affinities. this is here to ignore non implemented perlin world param channels
+                if(worldPointAffinityParams.GetAffinity(affinity) == 0)
+                {
+                    continue;
+                }
+                affinityMatch -= Math.Abs(worldPointAffinityParams.GetAffinity(affinity) - worldAffinity.GetAffinity(affinity));
 			}
-			return affinitySum;
+			return Math.Max(0, affinityMatch);
 		}
         
         /// <summary>

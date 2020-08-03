@@ -39,14 +39,15 @@ namespace Assets.Scripts.src.WorldGeneration
         /// <param name="affinity">Its associated affinity</param>
         public void AddAffinity(WorldParam param, float affinity)
         {
+            float clampedAffinity = affinity < 0 ? 0 : affinity > 1 ? 1 : affinity;
             if (!affinities.ContainsKey(param))
             {
-                affinities.Add(param, affinity);
+                affinities.Add(param, clampedAffinity);
             }
             else
             {
                 UnityEngine.Debug.LogWarning("Affinity Key " + param.ToString() + " overwritten in WorldParamAffinities");
-                affinities[param] = affinity;
+                affinities[param] = clampedAffinity;
             }
         }
 
