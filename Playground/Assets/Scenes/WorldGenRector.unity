@@ -246,8 +246,8 @@ MonoBehaviour:
   smoothness: 0.004
   seed: 4
   generateTerrain: 0
-  minDensity: 0.1
-  maxDensity: 0.2
+  minDensity: 0
+  maxDensity: 0.005
 --- !u!64 &1788183620
 MeshCollider:
   m_ObjectHideFlags: 0

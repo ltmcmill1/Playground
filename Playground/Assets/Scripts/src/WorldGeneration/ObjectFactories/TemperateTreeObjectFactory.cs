@@ -10,7 +10,7 @@ namespace Assets.Scripts.src.WorldGeneration.ObjectFactories
 {
     class TemperateTreeObjectFactory : EnvironmentalObjectFactory
     {
-        private static string prefabKey = "TEMPERATE_TREE_ENVIRONMENTAL_OBJECT";
+        private static string resourceLocation = "TemperateTrees";
 
         public TemperateTreeObjectFactory()
         {
@@ -22,12 +22,12 @@ namespace Assets.Scripts.src.WorldGeneration.ObjectFactories
 
         public override GameObject CreateEnvironmentalObject()
         {
-            var temperateTreeObjects = GameObject.FindGameObjectsWithTag(prefabKey);
+            var temperateTreeObjects = Resources.LoadAll(resourceLocation, typeof(GameObject));
+
             if (temperateTreeObjects.Count() > 0)
             {
                 int index = temperateTreeObjects.Count() > 1 ? UnityEngine.Random.Range(0, temperateTreeObjects.Count() - 1) : 0;
-                //temperateTreeObjects[index].transform.localScale = temperateTreeObjects[index].transform.localScale * UnityEngine.Random.Range(0.25f, 1.75f);
-                return temperateTreeObjects[index];
+                return (GameObject)temperateTreeObjects[index];
             }
             return null;
         }
