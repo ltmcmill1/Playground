@@ -9,12 +9,15 @@ namespace Assets.Scripts.src.WorldGeneration
 {
     public abstract class WorldParamPerlinNoiseLayer : PerlinNoiseLayer
     {
-        private static SortedDictionary<WorldParam, WorldParamPerlinNoiseLayer> existingFactoryImplementations = new SortedDictionary<WorldParam, WorldParamPerlinNoiseLayer>();
+        private static SortedDictionary<WorldParam, WorldParamPerlinNoiseLayer> existingNoiseImplementations = new SortedDictionary<WorldParam, WorldParamPerlinNoiseLayer>();
+
+        //TODO: Make set max/set min somehow setable at runtime for each noise layer... config file?
 
         public abstract WorldParam CorrespondingParam();
 
         public static SortedDictionary<WorldParam, WorldParamPerlinNoiseLayer> GetNoiseLayerInstances()
         {
+            existingNoiseImplementations.Clear();
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
             Type baseType = typeof(WorldParamPerlinNoiseLayer);
@@ -30,10 +33,10 @@ namespace Assets.Scripts.src.WorldGeneration
                 WorldParamPerlinNoiseLayer derivedObject =
                     System.Activator.CreateInstance(type) as WorldParamPerlinNoiseLayer;
 
-                existingFactoryImplementations.Add(derivedObject.CorrespondingParam(), derivedObject);
+                existingNoiseImplementations.Add(derivedObject.CorrespondingParam(), derivedObject);
             }
 
-            return existingFactoryImplementations;
+            return existingNoiseImplementations;
         }
 
     }

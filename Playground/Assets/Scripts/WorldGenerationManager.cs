@@ -1,8 +1,9 @@
 ﻿using Assets.Scripts.src;
 using Assets.Scripts.src.WorldGeneration;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -102,11 +103,12 @@ public class WorldGenerationManager : MonoBehaviour
 
                 // Spawn object based on the weighted affinity values
 
-                float diceRoll = Random.Range(0, 101) / 100f;
+                float diceRoll = UnityEngine.Random.Range(0, 101) / 100f;
                 if (diceRoll < density)
                 {
-                    float spawnDecider = Random.Range(0, polledAffinitySum);
+                    float spawnDecider = UnityEngine.Random.Range(0, polledAffinitySum);
                     float spawnSum = 0;
+
                     foreach ((EnvironmentalObjectFactory, float) affinity in polledAffinities)
                     {
                         spawnSum += affinity.Item2;
@@ -116,6 +118,7 @@ public class WorldGenerationManager : MonoBehaviour
                             if(newObject != null)
                             {
                                 Instantiate(newObject, newVertices[thisIndex], Quaternion.Euler(0f, 0f, 0f));
+                                break;
                             }
                         }
                     }

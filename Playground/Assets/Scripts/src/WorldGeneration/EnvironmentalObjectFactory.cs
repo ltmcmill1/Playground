@@ -46,6 +46,7 @@ namespace Assets.Scripts.src
 
         public static List<EnvironmentalObjectFactory> GetFactoryInstances()
         {
+            existingFactoryImplementations.Clear();
             Assembly currentAssembly = Assembly.GetExecutingAssembly();
 
             Type baseType = typeof(EnvironmentalObjectFactory);

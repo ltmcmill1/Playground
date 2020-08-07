@@ -15,9 +15,9 @@ namespace Assets.Scripts.src.WorldGeneration.ObjectFactories
         public TemperateTreeObjectFactory()
         {
             worldAffinity = new WorldParamAffinities(new KeyValuePair<WorldParam, float>(WorldParam.Humidity, .5f),
-                                                     new KeyValuePair<WorldParam, float>(WorldParam.Temperature, .7f),
-                                                     new KeyValuePair<WorldParam, float>(WorldParam.Fertility, .4f),
-                                                     new KeyValuePair<WorldParam, float>(WorldParam.Altitude, .5f));
+                                                     new KeyValuePair<WorldParam, float>(WorldParam.Temperature, .5f),
+                                                     new KeyValuePair<WorldParam, float>(WorldParam.Fertility, .8f),
+                                                     new KeyValuePair<WorldParam, float>(WorldParam.Altitude, .75f));
         }
 
         public override GameObject CreateEnvironmentalObject()
